@@ -1,5 +1,6 @@
-import * as path from 'path';
+import { run } from '@midwayjs/glob';
 import * as fs from 'fs';
+import * as path from 'path';
 
 export class Container {
   private classTable = {};
@@ -7,10 +8,13 @@ export class Container {
   private cwd = process.cwd();
 
   constructor() {
-    const files = fs.readdirSync(path.join(this.cwd, 'src/lib'));
+    const files = run(['**/*.ts'], {
+      cwd: path.join(__dirname),
+      ignore: ['**/index.ts', '**/Container.ts', '**/build/**']
+    });
 
-    for (const fileName of files) {
-      const exports = require(path.join(this.cwd, 'src/lib', fileName));
+    for (const filePath of files) {
+      const exports = require(filePath);
       for (const value of Object.values(exports)) {
         this.classTable[this.getName(value)] = value;
       }
