@@ -1,0 +1,16 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", ".vscode", ".idea", "node_modules/", "test/", "src/**/*.spec.ts"],
+  "verbose": true,
+  "execMap": {
+    "": "node",
+    "js": "node --harmony"
+  },
+  "events": {
+    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+  },
+  "exec": "ts-node -r tsconfig-paths/register --transpile-only ./src/index.ts",
+  "watch": ["src", ".env"],
+  "ext": "js,ts,json",
+  "legacy-watch": false
+}
