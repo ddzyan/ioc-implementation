@@ -1,15 +1,12 @@
 import { run } from '@midwayjs/glob';
-import * as fs from 'fs';
-import * as path from 'path';
 
 export class Container {
   private classTable = {};
   private cache = {};
-  private cwd = process.cwd();
 
-  constructor() {
+  constructor(scanDir: string) {
     const files = run(['**/*.ts'], {
-      cwd: path.join(__dirname),
+      cwd: scanDir,
       ignore: ['**/index.ts', '**/Container.ts', '**/build/**']
     });
 
