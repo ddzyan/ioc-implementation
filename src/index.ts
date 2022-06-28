@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { A } from './lib/A';
 import { Container } from './Container';
 
