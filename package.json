@@ -1,6 +1,6 @@
 {
   "name": "ioc-implementation",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "ts 源码实现 IOC 和 DI",
   "main": "dist/index.ts",
   "scripts": {
