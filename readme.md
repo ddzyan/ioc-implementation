@@ -4,7 +4,7 @@
 
 参考资料：
 
-- https://jkchao.github.io/typescript-book-chinese/tips/metadata.html#%E8%8E%B7%E5%8F%96%E7%B1%BB%E5%9E%8B%E4%BF%A1%E6%81%AF
+- [Reflect Metadata](https://jkchao.github.io/typescript-book-chinese/tips/metadata.html#%E8%8E%B7%E5%8F%96%E7%B1%BB%E5%9E%8B%E4%BF%A1%E6%81%AF)
 
 # 版本迭代记录
 
