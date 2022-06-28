@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "dev": "nodemon --inspect src/index.ts",
-    "ts": "ts-node src/index.ts",
+    "ts": "ts-node src/mvp.ts",
     "build": "tsc",
     "clear": "rm -rf ./build",
     "watch-ts": "rimraf ./dist && tsc -w",
