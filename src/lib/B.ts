@@ -1,8 +1,9 @@
-import { Provider } from '../decorator/provider';
+import { Provider, Inject } from '../decorator';
 
 import { C } from './C';
 
 @Provider()
 export class B {
-  c: C = undefined;
+  @Inject()
+  c: C;
 }

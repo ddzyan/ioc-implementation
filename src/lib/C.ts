@@ -1,4 +1,4 @@
-import { Provider } from '../decorator/provider';
+import { Provider } from '../decorator';
 
 @Provider()
 export class C {

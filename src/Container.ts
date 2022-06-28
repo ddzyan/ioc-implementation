@@ -1,7 +1,7 @@
 import { run } from '@midwayjs/glob';
 
+import { INJECT, PROVIDER } from './decorator';
 export class Container {
-  private classTable = {};
   private cache = {};
 
   constructor(scanDir: string) {
@@ -13,9 +13,9 @@ export class Container {
     for (const filePath of files) {
       const exports = require(filePath);
       for (const value of Object.values(exports)) {
-        const containerName = Reflect.getMetadata('containerName', value); // 'a'
+        const containerName = Reflect.getMetadata(PROVIDER, value);
         if (containerName) {
-          this.classTable[this.getName(value)] = value;
+          this.bind(value);
         }
       }
     }
@@ -27,49 +27,36 @@ export class Container {
 
   get(Module) {
     const moduleName = this.getName(Module);
-    if (this.cache[moduleName]) {
-      return this.cache[moduleName];
+    if (!this.cache[moduleName]) {
+      throw new Error(`引用的 ${moduleName} 不在 container cache 中`);
     }
-
-    // 创建对象
-    const obj = new Module();
-
-    // 缓存起来下次用
-    this.cache[moduleName] = obj;
-
-    // 方法返回一个由指定对象的所有自身属性的属性名（包括不可枚举属性但不包括Symbol值作为名称的属性）组成的数组。
-    const properties = Object.getOwnPropertyNames(obj);
-    for (const p of properties) {
-      if (!obj[p]) {
-        // 如果对象不存在，就往下创建
-        if (this.classTable[p]) {
-          obj[p] = this.get(this.classTable[p]);
-        }
-      }
-    }
-    return obj;
+    return this.cache[moduleName];
   }
 
   bind(Module) {
     const moduleName = this.getName(Module);
     if (this.cache[moduleName]) {
-      return;
+      return this.cache[moduleName];
     }
 
     const obj = new Module();
 
     this.cache[moduleName] = obj;
 
-    // 方法返回一个由指定对象的所有自身属性的属性名（包括不可枚举属性但不包括Symbol值作为名称的属性）组成的数组。
-    const properties = Object.getOwnPropertyNames(obj);
-    for (const p of properties) {
-      if (!obj[p]) {
+    const propertyKey = Reflect.getMetadata(INJECT, obj);
+    if (!propertyKey || propertyKey.size === 0) {
+      return obj;
+    }
+
+    for (const [key, valueList] of propertyKey.entries()) {
+      if (!obj[key]) {
         // 如果对象不存在，就往下创建
-        if (this.classTable[p]) {
-          obj[p] = this.get(this.classTable[p]);
+        for (const value of valueList) {
+          obj[key] = this.bind(value);
         }
       }
     }
+
     return obj;
   }
 }
