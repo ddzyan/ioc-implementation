@@ -17,6 +17,6 @@
     "esModuleInterop": true,
     "baseUrl": "."
   },
-  "include": ["./src/**/*", "src/index.mjs"],
+  "include": ["./src/**/*"],
   "exclude": ["node_modules", "tests"]
 }
