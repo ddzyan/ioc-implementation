@@ -28,3 +28,12 @@ export const Inject = (): PropertyDecorator => {
     Reflect.defineMetadata(INJECT, m, target);
   };
 };
+
+export const Task = (): MethodDecorator => {
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+    console.log('descriptor', descriptor.value);
+    console.log('constructor name', target.constructor.name);
+    // 在类的原型属性 'someMethod' 上定义元数据，key 为 `methodMetaData`，value 为 `b`
+    Reflect.defineMetadata('methodMetaData', 'b', target, propertyKey);
+  };
+};
